@@ -1,0 +1,43 @@
+task 6
+
+Requirement
+1. ADC conversion with 1kHz or more
+2. Screen Refreshrate 20 to 60 hz
+
+Question 1.
+	Is it possible to run number 1 with a xf
+	
+	time for the aquisition is mostly managed by the hardware, 
+	the xf would likely have to answer to one event every at least 0.5ms (2*1kHz per Shannon theorem) this is tight but definitely possible, and an RTOS wouldn't help here, 
+	given all events at that speed would be in the same task, a priority based XF could improve performances more	
+	
+Question 2.
+	Is it possible to run number 2 with a xf	
+	
+	time of draw is quite significant, but spaced enough a xf shouldn't have an issue.  
+	
+Question 3.
+	If combined with a hardware timer with an XF which need to be prioritized
+	
+	The hardware timer, it can interupt the processing of the event and run things like aquisition of the ADC with minumum process necessary. 
+	The ADC is also the most time critical part of the system. Display delay cause less problem than aquisition of the waveform.
+
+	
+taks 8
+
+Question 1:
+ how many sample/s needed for 1kHz, 2000 per Shannon theorem.
+ 
+Question 2: 
+ an Antiliasing filter would be useful, filtering at the maximum sampling frequency possible if the generation wasn't controlled. But given how it's setup it's not necessary
+ 
+Question 3: 
+	frequency should be higher if possible for better representation of non sine signals.
+	
+Question 4:
+	PA0 is the connected to the ADC IN0 channel (shared between all three ADCs
+	
+Question 5:
+	ADC can be triggered by an timer, or with continuous mode where it runs after each conversion is done after the last one.
+	
+	

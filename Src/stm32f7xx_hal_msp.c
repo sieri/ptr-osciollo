@@ -112,11 +112,14 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = ARDUINO_A0_Pin;
+    GPIO_InitStruct.Pin = GPIO_PIN_0;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
-    HAL_GPIO_Init(ARDUINO_A0_GPIO_Port, &GPIO_InitStruct);
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
+    /* ADC3 interrupt Init */
+    HAL_NVIC_SetPriority(ADC_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(ADC_IRQn);
   /* USER CODE BEGIN ADC3_MspInit 1 */
 
   /* USER CODE END ADC3_MspInit 1 */
@@ -151,8 +154,10 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
     HAL_GPIO_DeInit(GPIOF, ARDUINO_A4_Pin|ARDUINO_A5_Pin|ARDUINO_A1_Pin|ARDUINO_A2_Pin 
                           |ARDUINO_A3_Pin);
 
-    HAL_GPIO_DeInit(ARDUINO_A0_GPIO_Port, ARDUINO_A0_Pin);
+    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0);
 
+    /* ADC3 interrupt DeInit */
+    HAL_NVIC_DisableIRQ(ADC_IRQn);
   /* USER CODE BEGIN ADC3_MspDeInit 1 */
 
   /* USER CODE END ADC3_MspDeInit 1 */
@@ -375,105 +380,6 @@ void HAL_DMA2D_MspDeInit(DMA2D_HandleTypeDef* hdma2d)
   /* USER CODE BEGIN DMA2D_MspDeInit 1 */
 
   /* USER CODE END DMA2D_MspDeInit 1 */
-  }
-
-}
-
-/**
-* @brief ETH MSP Initialization
-* This function configures the hardware resources used in this example
-* @param heth: ETH handle pointer
-* @retval None
-*/
-void HAL_ETH_MspInit(ETH_HandleTypeDef* heth)
-{
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
-  if(heth->Instance==ETH)
-  {
-  /* USER CODE BEGIN ETH_MspInit 0 */
-
-  /* USER CODE END ETH_MspInit 0 */
-    /* Peripheral clock enable */
-    __HAL_RCC_ETH_CLK_ENABLE();
-  
-    __HAL_RCC_GPIOG_CLK_ENABLE();
-    __HAL_RCC_GPIOC_CLK_ENABLE();
-    __HAL_RCC_GPIOA_CLK_ENABLE();
-    /**ETH GPIO Configuration    
-    PG14     ------> ETH_TXD1
-    PG13     ------> ETH_TXD0
-    PG11     ------> ETH_TX_EN
-    PC1     ------> ETH_MDC
-    PA1     ------> ETH_REF_CLK
-    PC4     ------> ETH_RXD0
-    PA2     ------> ETH_MDIO
-    PC5     ------> ETH_RXD1
-    PA7     ------> ETH_CRS_DV 
-    */
-    GPIO_InitStruct.Pin = RMII_TXD1_Pin|RMII_TXD0_Pin|RMII_TX_EN_Pin;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF11_ETH;
-    HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
-
-    GPIO_InitStruct.Pin = RMII_MDC_Pin|RMII_RXD0_Pin|RMII_RXD1_Pin;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF11_ETH;
-    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-    GPIO_InitStruct.Pin = RMII_REF_CLK_Pin|RMII_MDIO_Pin|RMII_CRS_DV_Pin;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF11_ETH;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /* USER CODE BEGIN ETH_MspInit 1 */
-
-  /* USER CODE END ETH_MspInit 1 */
-  }
-
-}
-
-/**
-* @brief ETH MSP De-Initialization
-* This function freeze the hardware resources used in this example
-* @param heth: ETH handle pointer
-* @retval None
-*/
-void HAL_ETH_MspDeInit(ETH_HandleTypeDef* heth)
-{
-  if(heth->Instance==ETH)
-  {
-  /* USER CODE BEGIN ETH_MspDeInit 0 */
-
-  /* USER CODE END ETH_MspDeInit 0 */
-    /* Peripheral clock disable */
-    __HAL_RCC_ETH_CLK_DISABLE();
-  
-    /**ETH GPIO Configuration    
-    PG14     ------> ETH_TXD1
-    PG13     ------> ETH_TXD0
-    PG11     ------> ETH_TX_EN
-    PC1     ------> ETH_MDC
-    PA1     ------> ETH_REF_CLK
-    PC4     ------> ETH_RXD0
-    PA2     ------> ETH_MDIO
-    PC5     ------> ETH_RXD1
-    PA7     ------> ETH_CRS_DV 
-    */
-    HAL_GPIO_DeInit(GPIOG, RMII_TXD1_Pin|RMII_TXD0_Pin|RMII_TX_EN_Pin);
-
-    HAL_GPIO_DeInit(GPIOC, RMII_MDC_Pin|RMII_RXD0_Pin|RMII_RXD1_Pin);
-
-    HAL_GPIO_DeInit(GPIOA, RMII_REF_CLK_Pin|RMII_MDIO_Pin|RMII_CRS_DV_Pin);
-
-  /* USER CODE BEGIN ETH_MspDeInit 1 */
-
-  /* USER CODE END ETH_MspDeInit 1 */
   }
 
 }
@@ -1450,30 +1356,6 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
 
   /* USER CODE END USART1_MspInit 1 */
   }
-  else if(huart->Instance==USART6)
-  {
-  /* USER CODE BEGIN USART6_MspInit 0 */
-
-  /* USER CODE END USART6_MspInit 0 */
-    /* Peripheral clock enable */
-    __HAL_RCC_USART6_CLK_ENABLE();
-  
-    __HAL_RCC_GPIOC_CLK_ENABLE();
-    /**USART6 GPIO Configuration    
-    PC7     ------> USART6_RX
-    PC6     ------> USART6_TX 
-    */
-    GPIO_InitStruct.Pin = ARDUINO_RX_D0_Pin|ARDUINO_TX_D1_Pin;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF8_USART6;
-    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-  /* USER CODE BEGIN USART6_MspInit 1 */
-
-  /* USER CODE END USART6_MspInit 1 */
-  }
 
 }
 
@@ -1504,96 +1386,6 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* huart)
   /* USER CODE BEGIN USART1_MspDeInit 1 */
 
   /* USER CODE END USART1_MspDeInit 1 */
-  }
-  else if(huart->Instance==USART6)
-  {
-  /* USER CODE BEGIN USART6_MspDeInit 0 */
-
-  /* USER CODE END USART6_MspDeInit 0 */
-    /* Peripheral clock disable */
-    __HAL_RCC_USART6_CLK_DISABLE();
-  
-    /**USART6 GPIO Configuration    
-    PC7     ------> USART6_RX
-    PC6     ------> USART6_TX 
-    */
-    HAL_GPIO_DeInit(GPIOC, ARDUINO_RX_D0_Pin|ARDUINO_TX_D1_Pin);
-
-  /* USER CODE BEGIN USART6_MspDeInit 1 */
-
-  /* USER CODE END USART6_MspDeInit 1 */
-  }
-
-}
-
-/**
-* @brief HCD MSP Initialization
-* This function configures the hardware resources used in this example
-* @param hhcd: HCD handle pointer
-* @retval None
-*/
-void HAL_HCD_MspInit(HCD_HandleTypeDef* hhcd)
-{
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
-  if(hhcd->Instance==USB_OTG_FS)
-  {
-  /* USER CODE BEGIN USB_OTG_FS_MspInit 0 */
-
-  /* USER CODE END USB_OTG_FS_MspInit 0 */
-  
-    __HAL_RCC_GPIOA_CLK_ENABLE();
-    /**USB_OTG_FS GPIO Configuration    
-    PA12     ------> USB_OTG_FS_DP
-    PA11     ------> USB_OTG_FS_DM
-    PA10     ------> USB_OTG_FS_ID 
-    */
-    GPIO_InitStruct.Pin = OTG_FS_P_Pin|OTG_FS_N_Pin|OTG_FS_ID_Pin;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF10_OTG_FS;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-    /* Peripheral clock enable */
-    __HAL_RCC_USB_OTG_FS_CLK_ENABLE();
-    /* USB_OTG_FS interrupt Init */
-    HAL_NVIC_SetPriority(OTG_FS_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(OTG_FS_IRQn);
-  /* USER CODE BEGIN USB_OTG_FS_MspInit 1 */
-
-  /* USER CODE END USB_OTG_FS_MspInit 1 */
-  }
-
-}
-
-/**
-* @brief HCD MSP De-Initialization
-* This function freeze the hardware resources used in this example
-* @param hhcd: HCD handle pointer
-* @retval None
-*/
-void HAL_HCD_MspDeInit(HCD_HandleTypeDef* hhcd)
-{
-  if(hhcd->Instance==USB_OTG_FS)
-  {
-  /* USER CODE BEGIN USB_OTG_FS_MspDeInit 0 */
-
-  /* USER CODE END USB_OTG_FS_MspDeInit 0 */
-    /* Peripheral clock disable */
-    __HAL_RCC_USB_OTG_FS_CLK_DISABLE();
-  
-    /**USB_OTG_FS GPIO Configuration    
-    PA12     ------> USB_OTG_FS_DP
-    PA11     ------> USB_OTG_FS_DM
-    PA10     ------> USB_OTG_FS_ID 
-    */
-    HAL_GPIO_DeInit(GPIOA, OTG_FS_P_Pin|OTG_FS_N_Pin|OTG_FS_ID_Pin);
-
-    /* USB_OTG_FS interrupt DeInit */
-    HAL_NVIC_DisableIRQ(OTG_FS_IRQn);
-  /* USER CODE BEGIN USB_OTG_FS_MspDeInit 1 */
-
-  /* USER CODE END USB_OTG_FS_MspDeInit 1 */
   }
 
 }
