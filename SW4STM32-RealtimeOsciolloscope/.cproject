@@ -143,11 +143,9 @@
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="app"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="event"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="f7-disco-gcc"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="mdw/ext-freqgen"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="mdw/sig-gen"/>
-						<entry excluding="gdisp/fonts/UI2.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="mdw/ugfx/src"/>
+						<entry excluding="ugfx/src/gdisp/fonts/" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="mdw"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="startup"/>
-						<entry excluding="resources/dejavusans18_bold_dejavusans_bold18_aa.c|resources/dejavusans12_dejavusans12_aa.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="ui-gen"/>
+						<entry excluding="resources/dejavusans12_dejavusans12_aa.c|resources/dejavusans18_bold_dejavusans_bold18_aa.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="ui-gen"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="xf/core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="xf/include"/>
 						<entry excluding="default-idf" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="xf/port"/>
@@ -272,14 +270,15 @@
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="app"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="event"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="f7-disco-gcc"/>
+						<entry excluding="" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="mdw"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="mdw/ext-freqgen"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="mdw/sig-gen"/>
-						<entry excluding="gdisp/fonts/UI2.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="mdw/ugfx/src"/>
+						<entry excluding="" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="mdw/ugfx/src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="startup"/>
-						<entry excluding="resources/dejavusans18_bold_dejavusans_bold18_aa.c|resources/dejavusans12_dejavusans12_aa.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="ui-gen"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="ui-gen"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="xf/core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="xf/include"/>
-						<entry excluding="default-idf" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="xf/port"/>
+						<entry excluding="" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="xf/port"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="xf/port/default-idf"/>
 					</sourceEntries>
 				</configuration>
@@ -293,7 +292,7 @@
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="refreshScope" versionNumber="2">
 		<configuration configurationName="Debug">
-			<resource resourceType="PROJECT" workspacePath="/OSCILLO"/>
+			<resource resourceType="PROJECT" workspacePath="OSCILLO"/>
 		</configuration>
 		<configuration configurationName="Release"/>
 	</storageModule>
