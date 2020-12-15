@@ -5,6 +5,8 @@
 #include "ui-gen/gui.h"
 #include "gui.h"
 
+
+
 #define TOUCH_THREAD_STACK_SIZE     2048
 
 namespace oscilloscope {
@@ -226,3 +228,5 @@ void Gui::onButtonTimeMinusPressed()
 }
 
 }   // namespace oscilloscope
+
+
